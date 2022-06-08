@@ -18,6 +18,7 @@ async function getUser(username) {
 }
 
 async function getRepos(username) {
+  reposLoader()
   try {
     const { data } = await axios(
       'https://api.github.com/users/' + username + '/repos?sort=created'
@@ -69,7 +70,8 @@ function createErrorCard(msg) {
 
 function addReposToCard(repos) {
   const reposEl = document.getElementById('repos')
-
+  const loader = document.querySelector('.kinetic')
+  loader.remove()
   repos.slice(0, 5).forEach((repo) => {
     const repoEl = document.createElement('a')
     repoEl.classList.add('repo')
@@ -95,6 +97,13 @@ form.addEventListener('submit', (e) => {
 
 function loader() {
   main.innerHTML = `
+    <div class="kinetic"></div>
+  `
+}
+
+function reposLoader() {
+  const reposEl = document.getElementById('repos')
+  reposEl.innerHTML = `
     <div class="kinetic"></div>
   `
 }
